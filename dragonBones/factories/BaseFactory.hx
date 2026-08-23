@@ -267,10 +267,9 @@ import dragonBones.textures.TextureData;
 		
 		if (displayIndex >= 0) 
 		{
-			var displayList:Vector<Object> = slot.displayList; // Copy.
-			if (displayList.length <= displayIndex) 
-			{
-				displayList.length = displayIndex + 1;
+			var displayList:Array<Dynamic> = slot.displayList; // Copy.
+			while (displayList.length <= displayIndex) {
+    			displayList.push(null);
 			}
 			
 			if (slot._replacedDisplayDatas.length <= displayIndex) 
@@ -349,7 +348,7 @@ import dragonBones.textures.TextureData;
 	{
 		//
 		var isComplete:Bool = true;
-		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(rawData, ByteArrayData))
+		if (Std.isOfType(rawData, ByteArrayData))
 		{
 			var decodeData:DecodedData = DecodedData.decode(cast rawData);
 			if (decodeData != null)
@@ -405,11 +404,11 @@ import dragonBones.textures.TextureData;
 		var textureAtlasData:TextureAtlasData = _generateTextureAtlasData(null, null);
 		_dataParser.parseTextureAtlasData(rawData, textureAtlasData, scale, rawScale);
 		
-		if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(textureAtlas, Bitmap))
+		if (Std.isOfType(textureAtlas, Bitmap))
 		{
 			textureAtlas = cast(textureAtlas, Bitmap).bitmapData;
 		}
-		else if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(textureAtlas, DisplayObject))
+		else if (Std.isOfType(textureAtlas, DisplayObject))
 		{
 			var displayObject:DisplayObject = cast textureAtlas;
 			var rect:Rectangle = displayObject.getRect(displayObject);
@@ -699,7 +698,7 @@ import dragonBones.textures.TextureData;
 			{
 				var slots:Vector<Slot> = toArmature.getSlots();
 				var l:UInt = slots.length;
-				var toSlot:Slot, toSlotDisplayList:Vector<Dynamic>, lA:UInt, toDisplayObject:Dynamic, displays:Vector<DisplayData>, fromDisplayData:DisplayData;
+				var toSlot:Slot, toSlotDisplayList:Array<Dynamic>, lA:UInt, toDisplayObject:Dynamic, displays:Vector<DisplayData>, fromDisplayData:DisplayData;
 				for (i in 0...l)
 				{
 					toSlot = slots[i];
@@ -708,7 +707,7 @@ import dragonBones.textures.TextureData;
 					for (iA in 0...lA)
 					{
 						toDisplayObject = toSlotDisplayList[iA];
-						if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(toDisplayObject, Armature))
+						if (Std.isOfType(toDisplayObject, Armature))
 						{
 							displays = dataPackage.skin.getSlot(toSlot.name).displays;
 							if (iA < displays.length)

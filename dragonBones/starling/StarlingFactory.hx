@@ -80,7 +80,7 @@ import starling.rendering.VertexData;
 		{
 			var starlingTextureAtlasData:StarlingTextureAtlasData = cast textureAtlasData;
 			
-			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(textureAtlas, BitmapData))
+			if (Std.isOfType(textureAtlas, BitmapData))
 			{
 				starlingTextureAtlasData.texture = Texture.fromBitmapData(cast textureAtlas, generateMipMaps, false, textureAtlasData.scale);
 				starlingTextureAtlasData._disposeTexture = true;
@@ -93,7 +93,7 @@ import starling.rendering.VertexData;
 				}
 				#end
 			}
-			else if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(textureAtlas, Texture))
+			else if (Std.isOfType(textureAtlas, Texture))
 			{
 				cast(textureAtlasData, StarlingTextureAtlasData).texture = cast textureAtlas;
 			}
@@ -141,8 +141,8 @@ import starling.rendering.VertexData;
 	{
 		var slot:StarlingSlot = cast BaseObject.borrowObject(StarlingSlot);
 		var slotData:SlotData = skinSlotData.slot;
-		var displayList:Vector<Object> = new Vector<Object>(skinSlotData.displays.length, true);
-		
+		var displayList:Array<Dynamic> = [];
+displayList[skinSlotData.displays.length - 1] = null; // Ορίζει το μέγεθος αυτόματα
 		#if (starling >= "2.0")
 		slot._indexData = new IndexData();
 		slot._vertexData = new VertexData();

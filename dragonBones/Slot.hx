@@ -123,7 +123,7 @@ import dragonBones.textures.TextureData;
 	/**
 	 * @private
 	 */
-	private var _displayList:Vector<Object> = new Vector<Object>();
+	private var _displayList:Array<Dynamic> = new Array<Dynamic>();
 	/**
 	 * @private
 	 */
@@ -194,7 +194,7 @@ import dragonBones.textures.TextureData;
 	{
 		super._onClear();
 		
-		var disposeDisplayList:Vector<Object> = new Vector<Object>();
+		var disposeDisplayList:Array<Dynamic> = new Array<Dynamic>();
 		var l:UInt = _displayList.length;
 		var eachDisplay:Dynamic;
 		for (i in 0...l)
@@ -213,7 +213,7 @@ import dragonBones.textures.TextureData;
 		for (i in 0...l)
 		{
 			eachDisplay = disposeDisplayList[i];
-			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(eachDisplay, Armature))
+			if (Std.isOfType(eachDisplay, Armature))
 			{
 				cast(eachDisplay, Armature).dispose();
 			}
@@ -258,7 +258,7 @@ import dragonBones.textures.TextureData;
 		_colorTransform.greenOffset = 0;
 		_colorTransform.blueOffset = 0;
 		_ffdVertices.length = 0;
-		_displayList.length = 0;
+		_displayList.resize(0);
 		_textureDatas.length = 0;
 		_replacedDisplayDatas.length = 0;
 		_meshBones.length = 0;
@@ -606,7 +606,7 @@ import dragonBones.textures.TextureData;
 		if (_displayIndex >= 0 && _displayIndex < _displayList.length)
 		{
 			_display = _displayList[_displayIndex];
-			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(_display, Armature))
+			if (Std.isOfType(_display, Armature))
 			{
 				_childArmature = cast _display;
 				_display = _childArmature.display;
@@ -911,13 +911,13 @@ import dragonBones.textures.TextureData;
 	/**
 	 * @private
 	 */
-	private function _setDisplayList(value:Vector<Object>):Bool
+	private function _setDisplayList(value:Array<Dynamic>):Bool
 	{
 		if (value != null && value.length != 0)
 		{
 			if (_displayList.length != value.length)
 			{
-				_displayList.length = value.length;
+				_displayList.resize(value.length);
 			}
 			
 			var l:UInt = value.length;
@@ -926,7 +926,7 @@ import dragonBones.textures.TextureData;
 			{
 				eachDisplay = value[i];
 				if (eachDisplay != null && eachDisplay != _rawDisplay && eachDisplay != _meshDisplay && 
-					!#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(eachDisplay, Armature) && _displayList.indexOf(eachDisplay) < 0)
+					!Std.isOfType(eachDisplay, Armature) && _displayList.indexOf(eachDisplay) < 0)
 				{
 					_initDisplay(eachDisplay);
 				}
@@ -936,7 +936,7 @@ import dragonBones.textures.TextureData;
 		}
 		else if (_displayList.length > 0)
 		{
-			_displayList.length = 0;
+			_displayList.resize(value.length);
 		}
 		
 		if (_displayIndex >= 0 && _displayIndex < _displayList.length)
@@ -1170,15 +1170,15 @@ import dragonBones.textures.TextureData;
 	 * 包含显示对象或子骨架的显示列表。
 	 * @version DragonBones 3.0
 	 */
-	public var displayList(get, set):Vector<Object>;
-	private function get_displayList():Vector<Object>
+	public var displayList(get, set):Array<Dynamic>;
+	private function get_displayList():Array<Dynamic>
 	{
-		return _displayList.concat();
+		return _displayList.copy();
 	}
-	private function set_displayList(value:Vector<Object>):Vector<Object>
+	private function set_displayList(value:Array<Dynamic>):Array<Dynamic>
 	{
-		var backupDisplayList:Vector<Object> = _displayList.concat();
-		var disposeDisplayList:Vector<Object> = new Vector<Object>();
+		var backupDisplayList:Array<Dynamic> = _displayList.copy();
+		var disposeDisplayList:Array<Dynamic> = new Array<Dynamic>();
 		var eachDisplay:Dynamic;
 		
 		if (_setDisplayList(value))
@@ -1203,7 +1203,7 @@ import dragonBones.textures.TextureData;
 		for (i in 0...l)
 		{
 			eachDisplay = disposeDisplayList[i];
-			if (#if (haxe_ver >= 4.2) Std.isOfType #else Std.is #end(eachDisplay, Armature))
+			if (Std.isOfType(eachDisplay, Armature))
 			{
 				cast(eachDisplay, Armature).dispose();
 			}
@@ -1243,10 +1243,9 @@ import dragonBones.textures.TextureData;
 		}
 		else
 		{
-			var replaceDisplayList:Vector<Object> = displayList; // copy
-			if (displayListLength <= _displayIndex)
-			{
-				replaceDisplayList.length = _displayIndex + 1;
+			var replaceDisplayList:Array<Dynamic> = displayList; // copy
+			while (displayListLength <= _displayIndex) {
+				displayList.push(null);
 			}
 			
 			replaceDisplayList[_displayIndex] = value;

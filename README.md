@@ -5,6 +5,18 @@ DragonBones
 
 Haxe runtime support for DragonBones, a skeletal animation editor.
 
+## Haxe 4 & HXCPP Fork Notes
+
+This repository is an experimental fork of [openfl/dragonbones](https://github.com/openfl/dragonbones) focused on Haxe 4 and C++ (HXCPP) target compatibility.
+
+### Compatibility & Status
+* **Target Engine**: Haxe 4.x + HXCPP (Android).
+* **Backend Status**:
+  * **Starling Backend**: Refactored for Haxe 4 / HXCPP; initial compilation and basic rendering verified with test armatures.
+  * **Core Engine**: Modernized type checks (`Std.isOfType`) and safe array padding (`ObjectDataParser`, `BaseFactory`).
+  * **Flixel / OpenFL Backends**: Untested (kept at upstream version).
+* **Key Fixes**: Replaced `Vector<Object>` with `Array<Dynamic>` to fix C++ template casting errors and normalized `Std.isOfType` usage.
+
 
 Installation
 ------------
@@ -34,3 +46,6 @@ Tell haxelib where your development copy of DragonBones is installed:
 To return to release builds:
 
     haxelib dev dragonbones
+
+
+
