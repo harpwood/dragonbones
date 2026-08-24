@@ -17,6 +17,8 @@ This repository is an experimental fork of [openfl/dragonbones](https://github.c
   * **Flixel / OpenFL Backends**: Untested (kept at upstream version).
 * **Key Fixes**: Replaced `Vector<Object>` with `Array<Dynamic>` to fix C++ template casting errors and normalized `Std.isOfType` usage.
 
+Note: `Vector<Dynamic>` alone does not fix this. HXCPP's `Vector<T>` abstract resolves `Dynamic` ambiguously against multiple `@:to` overloads (Bool/Int/Float/Object), so `Array<Dynamic>` was used instead to bypass the specialization entirely.
+
 
 Installation
 ------------
