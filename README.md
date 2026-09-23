@@ -7,14 +7,14 @@ Haxe runtime support for DragonBones, a skeletal animation editor.
 
 ## Haxe 4 & HXCPP Fork Notes
 
-This repository is an experimental fork of [openfl/dragonbones](https://github.com/openfl/dragonbones) focused on Haxe 4 and C++ (HXCPP) target compatibility.
+This repository is a fork of [openfl/dragonbones](https://github.com/openfl/dragonbones) focused on Haxe 4 and C++ (HXCPP) target compatibility.
 
 ### Compatibility & Status
 * **Target Engine**: Haxe 4.x + HXCPP (Android).
 * **Backend Status**:
-  * **Starling Backend**: Refactored for Haxe 4 / HXCPP; initial compilation and basic rendering verified with test armatures.
-  * **Core Engine**: Modernized type checks (`Std.isOfType`) and safe array padding (`ObjectDataParser`, `BaseFactory`).
-  * **Flixel / OpenFL Backends**: Untested (kept at upstream version).
+  * **Starling Backend**: Production-tested on Android.
+  * **Core Engine**: Modernized type checks (`Std.isOfType`), safe array padding (`ObjectDataParser`, `BaseFactory`), and a defensive null-check in `ArmatureData.getBone` / `getSlot` (guards against lookups with a `null` name).
+  * **Flixel / OpenFL Backends**: Untested, kept at upstream version — no changes applied.
 * **Key Fixes**: Replaced `Vector<Object>` with `Array<Dynamic>` to fix C++ template casting errors and normalized `Std.isOfType` usage.
 
 Note: `Vector<Dynamic>` alone does not fix this. HXCPP's `Vector<T>` abstract resolves `Dynamic` ambiguously against multiple `@:to` overloads (Bool/Int/Float/Object), so `Array<Dynamic>` was used instead to bypass the specialization entirely.
@@ -48,6 +48,4 @@ Tell haxelib where your development copy of DragonBones is installed:
 To return to release builds:
 
     haxelib dev dragonbones
-
-
 

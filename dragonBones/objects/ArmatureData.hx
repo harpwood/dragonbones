@@ -398,6 +398,7 @@ import dragonBones.geom.Transform;
 	 */
 	public function getBone(name:String):BoneData
 	{
+		if (name == null) return null;
 		return bones[name];
 	}
 	/**
@@ -409,6 +410,7 @@ import dragonBones.geom.Transform;
 	 */
 	public function getSlot(name:String):SlotData
 	{
+		if (name == null) return null;
 		return slots[name];
 	}
 	/**
